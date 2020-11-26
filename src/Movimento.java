@@ -28,4 +28,19 @@ public enum Movimento {
 			return null;
 		}
 	}
+	
+	public static Movimento getMovimentoByNeuronio(int valor) {
+		switch (valor) {
+		case 0:
+			return C;
+		case 1:
+			return E;
+		case 2:
+			return B;
+		case 3:
+			return D;
+		default:
+			return null;
+		}
+	}
 }

@@ -68,11 +68,11 @@ public class TestaRede
         return Math.abs(linhaOrigem - linhaDestino) + Math.abs(colunaOrigem-colunaDestino);
     }
     
+    public static TestaRede carregaCromossomo(int[][] labirinto, double[] cromossomo){
+    	return new TestaRede(labirinto, cromossomo);
+    }
     
-    public static void carregaRede(int[][] labirinto, double[] cromossomo){
-        TestaRede teste = new TestaRede(labirinto, cromossomo);
-        int posX = 0, posY = 0;    //posições atuais do agente
-        double[] percepcao = teste.entorno(posX,posY);
+    public int executaMovimento(TestaRede teste, int[][] labirinto, double[] percepcao){
         
         System.out.println("Teste da percepção do agente - O que ele vê e a distância");
         //Exibe o que o agente está vendo
@@ -88,9 +88,16 @@ public class TestaRede
         //Exibe um exemplo de propagação : saida dos neurônios da camada de saída
         double[]saida = teste.rn.propagacao(percepcao);
         System.out.println("Rede Neural - Camada de Saida: Valor de Y");
+        double melhorSaida = saida[0];
+        int melhorNeuronio = 0;
         for(int i=0; i<saida.length; i++){
             System.out.println("Neuronio " + i + " : " + saida[i]);
+            if (saida[i] > melhorSaida) {
+            	melhorSaida = saida[i];
+            	melhorNeuronio = i;
+            }
         }
+        return melhorNeuronio;
     }
     
     

@@ -200,26 +200,27 @@ public class Genetico {
 		for (int i = 0; i < populacao.length; i++) { // cada cromossomo
 			posicaoAux = new int[] { 0, 0 };
 			posicaoAtual = new int[] { 0, 0 };
-			TestaRede.carregaRede(labirinto, populacao[i]);
-//			for (int j = 0; j < populacao.length; j++) { // realiza movimentos
-//				posicaoAux = realizaMovimento(posicaoAtual, populacao[i][j], labirinto);
-//				if (!posicaoAux.equals(posicaoAtual) && !movimentoJaRealizado(posicaoAux, movimentacao)) { // valida se
-//																											// conseguiu
-//																											// se
-//																											// movimentar
-//																											// e o
-//																											// movimento
-//																											// ja n foi
-//																											// realizado
-//					posicaoAtual = posicaoAux;
-//					movimentacao.add(new int[] { posicaoAtual[0], posicaoAtual[1] });
-//					validaResultado(posicaoAtual, movimentacao, labirinto);
-//
-//				}
-//
-//			}
+			TestaRede rede = TestaRede.carregaCromossomo(labirinto, populacao[i]);  //carrega cromossomo
+			
+			for (int j = 0; j < populacao.length; j++) { // realiza movimentos
+		        double[] percepcao = rede.entorno(posicaoAtual[0], posicaoAtual[1]);
+				int melhorNeuronio = rede.executaMovimento(rede, labirinto, percepcao); //executa RN pra ver o movimento escolhido
+				Movimento mvtoEscolhido = Movimento.getMovimentoByNeuronio(melhorNeuronio); //mvto escolhido				
+				posicaoAux = realizaMovimento(posicaoAtual, mvtoEscolhido, labirinto); //realiza movimento
+				System.out.println("movimento escolhido: " + mvtoEscolhido.descricao.toString());
+				if (!posicaoAux.equals(posicaoAtual) && !movimentoJaRealizado(posicaoAux, movimentacao)) { 
+					posicaoAtual = posicaoAux;
+					movimentacao.add(new int[] { posicaoAtual[0], posicaoAtual[1] });
+					validaResultado(posicaoAtual, movimentacao, labirinto);
+
+				} else {
+					//nao conseguiu andar logo mata essa tentativa
+					aptidoes[i] = posicaoAux[0] + posicaoAux[1]; //TODO: MUDAR APTIDAO PARA UM METODO DE SCORE
+					break;
+				}
+			}
 			movimentacao = new ArrayList<>();
-			aptidoes[i] = posicaoAux[0] + posicaoAux[1];
+
 		}
 
 		if (option == 2) {
