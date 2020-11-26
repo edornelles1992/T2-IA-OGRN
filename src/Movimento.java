@@ -2,15 +2,15 @@
 public enum Movimento {
 	C(1, "CIMA"), B(2, "BAIXO"), E(3, "ESQUERDA"), D(4, "DIREITA");
 
-	public final int valor;
+	public final double valor;
 	public final String descricao;
 
-	private Movimento(int valor, String descricao) {
+	private Movimento(double valor, String descricao) {
 		this.valor = valor;
 		this.descricao = descricao;
 	}
 
-	public int getValue() {
+	public double getValue() {
 		return valor;
 	}
 
