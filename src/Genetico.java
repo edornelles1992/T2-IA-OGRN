@@ -26,42 +26,19 @@ public class Genetico {
 		this.rng = new Random();
 	}
 
-	public void mutacao(Movimento[][] populacaoIntermediaria, int taxaMutacao) {
+	public void mutacao(double[][] populacaoIntermediaria, int taxaMutacao) {
 
 		for (int i = 0; i < numMovimentos * taxaMutacao; i++) {
 			int linha = rng.nextInt(((numMovimentos - 1) - 1) + 1) + 1;
 			int coluna = rng.nextInt(numMovimentos);
 
-			Movimento sorteado = Movimento.getMovimentoByValue(rng.nextInt((4 - 1) + 1) + 1);
-
-			if (populacaoIntermediaria[linha][coluna] == Movimento.B) {
-				while (sorteado == Movimento.B) {
-					sorteado = Movimento.getMovimentoByValue(rng.nextInt((4 - 1) + 1) + 1);
-				}
-				populacaoIntermediaria[linha][coluna] = sorteado;
-			}
-			if (populacaoIntermediaria[linha][coluna] == Movimento.C) {
-				while (sorteado == Movimento.C) {
-					sorteado = Movimento.getMovimentoByValue(rng.nextInt((4 - 1) + 1) + 1);
-				}
-				populacaoIntermediaria[linha][coluna] = sorteado;
-			}
-			if (populacaoIntermediaria[linha][coluna] == Movimento.E) {
-				while (sorteado == Movimento.E) {
-					sorteado = Movimento.getMovimentoByValue(rng.nextInt((4 - 1) + 1) + 1);
-				}
-				populacaoIntermediaria[linha][coluna] = sorteado;
-			}
-			if (populacaoIntermediaria[linha][coluna] == Movimento.D) {
-				while (sorteado == Movimento.D) {
-					sorteado = Movimento.getMovimentoByValue(rng.nextInt((4 - 1) + 1) + 1);
-				}
-				populacaoIntermediaria[linha][coluna] = sorteado;
-			}
+			double randomNum = rng.nextDouble();
+			if(rng.nextBoolean()) randomNum = randomNum * -1;
+			populacaoIntermediaria[linha][coluna] = randomNum;
 		}
 	}
 
-	public void crossOver(Movimento[][] populacao, Movimento[][] populacaoIntermediaria, int[] aptidoes) {
+	public void crossOver(double[][] populacao, double[][] populacaoIntermediaria, double[] aptidoes) {
 
 		int i = 1; // pula primeira linha
 		int pai;
@@ -93,7 +70,7 @@ public class Genetico {
 	 * A linha gerada randomicamente eh selecionada com base na que teve melhor
 	 * aptidao
 	 */
-	public int torneio(int[] aptidoes) {
+	public int torneio(double[] aptidoes) {
 		int linhaUm = rng.nextInt(numMovimentos);
 		int linhaDois = rng.nextInt(numMovimentos);
 
@@ -103,8 +80,8 @@ public class Genetico {
 		return linhaDois;
 	}
 
-	public void atribuiPrimeiraLinhaPopulacaoIntermediaria(Movimento[][] populacao,
-			Movimento[][] populacaoIntermediaria, int[] aptidoes, int[] aptidoesIntermediarias, int option) {
+	public void atribuiPrimeiraLinhaPopulacaoIntermediaria(double[][] populacao,
+			double[][] populacaoIntermediaria, double[] aptidoes, double[] aptidoesIntermediarias, int option) {
 		int melhorLinha = identificaMelhorLinha(aptidoes);
 		aptidoesIntermediarias[0] = aptidoes[melhorLinha];
 		for (int i = 0; i < populacao[0].length; i++) {
@@ -116,7 +93,7 @@ public class Genetico {
 		}
 	}
 
-	private int identificaMelhorLinha(int[] aptidoes) {
+	private int identificaMelhorLinha(double[] aptidoes) {
 		int melhorLinha = 0;
 		for (int i = 1; i < aptidoes.length; i++) {
 			if (aptidoes[i] > aptidoes[melhorLinha])
@@ -193,40 +170,41 @@ public class Genetico {
 	public void atribuiAptidao(double[][] populacao, int[][] labirinto, double[] aptidoes, int option, int geracao) {
 		int[] posicaoAtual = { 0, 0 };// inicio labirinto
 		int[] posicaoAux;
-
+		
 		ArrayList<int[]> movimentacao = new ArrayList<>();
 		movimentacao.add(posicaoAtual);
-		for (int i = 0; i < populacao.length; i++) { //cada cromossomo da população
+		for (int cromossomo = 0; cromossomo < populacao.length; cromossomo++) { //cada cromossomo da população
+			double totalPontos = 0;
 			int nroMoedas = 0;
 			int qtdCelulasCaminhadas = 0;
 			posicaoAux = new int[] { 0, 0 };
 			posicaoAtual = new int[] { 0, 0 };
-			TestaRede rede = TestaRede.carregaCromossomo(labirinto, populacao[i]);  //carrega cromossomo
+			TestaRede rede = TestaRede.carregaCromossomo(labirinto, populacao[cromossomo]);  //carrega cromossomo
 			
-			for (int j = 0; j < populacao.length; j++) { // realiza movimentos
+			for (int gene = 0; gene < populacao.length; gene++) { // realiza movimentos
 		        double[] percepcao = rede.entorno(posicaoAtual[0], posicaoAtual[1]);
 				int melhorNeuronio = rede.executaMovimento(rede, labirinto, percepcao); //executa RN pra ver o movimento escolhido
 				Movimento mvtoEscolhido = Movimento.getMovimentoByNeuronio(melhorNeuronio); //mvto escolhido				
 				posicaoAux = realizaMovimento(posicaoAtual, mvtoEscolhido, labirinto); //realiza movimento
-				System.out.println("movimento escolhido: " + mvtoEscolhido.descricao.toString());
+				//System.out.println("movimento escolhido: " + mvtoEscolhido.descricao.toString());
 				if (!posicaoAux.equals(posicaoAtual) && !movimentoJaRealizado(posicaoAux, movimentacao)) { 
 					//consegue andar
 					qtdCelulasCaminhadas++;
 					nroMoedas = nroMoedas + (labirinto[posicaoAtual[0]][posicaoAtual[1]] == MOEDA ? 1 : 0);
 					posicaoAtual = posicaoAux;
 					movimentacao.add(new int[] { posicaoAtual[0], posicaoAtual[1] });
-					double totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, CAMINHO, geracao, 0); 
-					System.out.println("Total pontos" + totalPontos);
-					aptidoes[i] = totalPontos;
+					totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, CAMINHO, geracao, 0); 					
+					aptidoes[cromossomo] = totalPontos;
 					this.validaResultado(posicaoAtual, movimentacao, labirinto, totalPontos);
 				} else {
 					//nao conseguiu andar logo mata essa tentativa, gravando a aptidão alcançada
-					aptidoes[i] = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, PAREDE, geracao, 0); 
+					totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, PAREDE, geracao, 0); 
+					aptidoes[cromossomo] = totalPontos;
 					break;
 				}
 			}
+			System.out.println("Geração "+ geracao + " Cromossomo " + cromossomo + " Total pontos: " + totalPontos);
 			movimentacao = new ArrayList<>();
-
 		}
 
 		if (option == 2) {
@@ -263,7 +241,7 @@ public class Genetico {
 				else
 					System.out.print(Arrays.toString(movimentacao.get(i)));
 			}
-
+			System.out.println("Total pontos: " + totalPontos);
 			guardaResultado(movimentacao, labirinto);
 			System.exit(1);
 		}
@@ -303,6 +281,10 @@ public class Genetico {
 		}
 	}
 
+	/**
+	 * Tenta realizar o movimento, caso consiga ele devolta a nova posição, caso não consiga,
+	 * ele devolve a mesma posição, indicando que o agente não conseguiu andar devido a uma parede ou limite do labirinto.
+	 */
 	private int[] realizaMovimento(int[] posicaoAtual, Movimento movimento, int[][] labirinto) {
 		int[] posicaoNova = { 0, 0 };
 		switch (movimento) {
