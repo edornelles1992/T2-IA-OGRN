@@ -217,7 +217,7 @@ public class Genetico {
 		//ciclos -> quanto menos melhor -> 		
 		//achouSaida -> -1 n achou / 1 achou
 		
-		return (nroMoedas * 40) + (qtdCelulasCaminhadas * 20) + (parede * -1000) + (achouSaida * 1000) + (achouSaida
+		return (nroMoedas * 50) + (qtdCelulasCaminhadas * 50) + (parede * -1000) + (achouSaida * 1000) + (achouSaida
 				== 1 ? ciclos * 0.001 : 0);
 	}
 
@@ -241,6 +241,7 @@ public class Genetico {
 				else
 					System.out.print(Arrays.toString(movimentacao.get(i)));
 			}
+			System.out.println();
 			System.out.println("Total pontos: " + totalPontos);
 			guardaResultado(movimentacao, labirinto);
 			System.exit(1);
