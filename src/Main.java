@@ -29,7 +29,7 @@ public class Main {
 
         int geracao;
         for (geracao = 0; geracao < genetico.numGeracoes; geracao++) {
-            genetico.atribuiAptidao(populacao, labirinto, aptidoes, option, geracao);
+            genetico.atribuiAptidao(populacao, labirinto, aptidoes, option, geracao, genetico.numGeracoes);
             genetico.atribuiPrimeiraLinhaPopulacaoIntermediaria(populacao, populacaoIntermediaria, aptidoes,
                     aptidoesIntermediarias, option, geracao);
 

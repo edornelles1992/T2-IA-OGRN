@@ -167,7 +167,7 @@ public class Genetico {
 		}
 	}
 
-	public void atribuiAptidao(double[][] populacao, int[][] labirinto, double[] aptidoes, int option, int geracao) {
+	public void atribuiAptidao(double[][] populacao, int[][] labirinto, double[] aptidoes, int option, int geracao, int maxGeracoes) {
 		int[] posicaoAtual = { 0, 0 };// inicio labirinto
 		int[] posicaoAux;
 		
@@ -193,12 +193,12 @@ public class Genetico {
 					nroMoedas = nroMoedas + (labirinto[posicaoAtual[0]][posicaoAtual[1]] == MOEDA ? 1 : 0);
 					posicaoAtual = posicaoAux;
 					movimentacao.add(new int[] { posicaoAtual[0], posicaoAtual[1] });
-					totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, CAMINHO, geracao, 0); 					
+					totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, CAMINHO, geracao, 0, maxGeracoes); 					
 					aptidoes[cromossomo] = totalPontos;
 					this.validaResultado(posicaoAtual, movimentacao, labirinto, totalPontos, nroMoedas);
 				} else {
 					//nao conseguiu andar logo mata essa tentativa, gravando a aptidão alcançada
-					totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, PAREDE, geracao, 0); 
+					totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, PAREDE, geracao, 0, maxGeracoes); 
 					aptidoes[cromossomo] = totalPontos;
 					break;
 				}
@@ -212,13 +212,12 @@ public class Genetico {
 		}
 	}
 
-	private double calculaPontos(int nroMoedas, int qtdCelulasCaminhadas, int parede, int ciclos, int achouSaida) {
+	private double calculaPontos(int nroMoedas, int qtdCelulasCaminhadas, int parede, int ciclos, int achouSaida, int maxGeracoes) {
 		//parede -> 1 bateu / 0 n bateu
 		//ciclos -> quanto menos melhor -> 		
 		//achouSaida -> -1 n achou / 1 achou
 		
-		return (nroMoedas * 50) + (qtdCelulasCaminhadas * 50) + (parede * -1000) + (achouSaida * 1000) + (achouSaida
-				== 1 ? ciclos * 0.001 : 0);
+		return (nroMoedas * 50) + (qtdCelulasCaminhadas * 50) + (parede * -1000) + (achouSaida * 1000) + ((ciclos - maxGeracoes) * 0.001);
 	}
 
 	public boolean movimentoJaRealizado(int[] posicaoAtual, ArrayList<int[]> movimentacao) {
