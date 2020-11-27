@@ -81,7 +81,7 @@ public class Genetico {
 	}
 
 	public void atribuiPrimeiraLinhaPopulacaoIntermediaria(double[][] populacao,
-			double[][] populacaoIntermediaria, double[] aptidoes, double[] aptidoesIntermediarias, int option) {
+			double[][] populacaoIntermediaria, double[] aptidoes, double[] aptidoesIntermediarias, int option, int geracao) {
 		int melhorLinha = identificaMelhorLinha(aptidoes);
 		aptidoesIntermediarias[0] = aptidoes[melhorLinha];
 		for (int i = 0; i < populacao[0].length; i++) {
@@ -89,7 +89,7 @@ public class Genetico {
 		}
 		aptidoes[0] = aptidoes[melhorLinha];
 		if (option == 1) {
-			System.out.println("Melhor cromossomo: " + aptidoes[0] + " " + Arrays.toString(populacaoIntermediaria[0]));
+			System.out.println("Geração "+ geracao + " Melhor cromossomo: " + aptidoes[0] + " " + Arrays.toString(populacaoIntermediaria[0]));
 		}
 	}
 
