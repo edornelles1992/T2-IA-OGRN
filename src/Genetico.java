@@ -106,7 +106,7 @@ public class Genetico {
 		//// 9 : entrada/saida; 8: moeda; 1:parede; 0:caminho livre
 		int[][] labirinto = new int[10][10];
 		try {
-			Scanner in = new Scanner(new FileReader("labirintoNovo.txt"));
+			Scanner in = new Scanner(new FileReader("labirinto.txt"));
 			int linha = 0;
 			while (in.hasNextLine()) {
 				String line = in.nextLine();
@@ -195,7 +195,7 @@ public class Genetico {
 					movimentacao.add(new int[] { posicaoAtual[0], posicaoAtual[1] });
 					totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, CAMINHO, geracao, 0); 					
 					aptidoes[cromossomo] = totalPontos;
-					this.validaResultado(posicaoAtual, movimentacao, labirinto, totalPontos);
+					this.validaResultado(posicaoAtual, movimentacao, labirinto, totalPontos, nroMoedas);
 				} else {
 					//nao conseguiu andar logo mata essa tentativa, gravando a aptidão alcançada
 					totalPontos = this.calculaPontos(nroMoedas, qtdCelulasCaminhadas, PAREDE, geracao, 0); 
@@ -230,7 +230,7 @@ public class Genetico {
 		return false;
 	}
 
-	private void validaResultado(int[] posicaoAtual, ArrayList<int[]> movimentacao, int[][] labirinto, double totalPontos) {
+	private void validaResultado(int[] posicaoAtual, ArrayList<int[]> movimentacao, int[][] labirinto, double totalPontos, int nroMoedas) {
 		if (posicaoAtual[0] == 9 && posicaoAtual[1] == 9) {
 			movimentacao.add(0, new int[] { 0, 0 });
 			System.out.println("Encontrou a saida do labirinto!");
@@ -243,6 +243,7 @@ public class Genetico {
 			}
 			System.out.println();
 			System.out.println("Total pontos: " + totalPontos);
+			System.out.println("Nro Moedas: " + nroMoedas);
 			guardaResultado(movimentacao, labirinto);
 			System.exit(1);
 		}
@@ -263,7 +264,7 @@ public class Genetico {
 	private void gravaLabirintoResultado(int[][] labirintoResultado) {
 		BufferedWriter buffWrite;
 		try {
-			buffWrite = new BufferedWriter(new FileWriter("resultadoGenetico.txt"));
+			buffWrite = new BufferedWriter(new FileWriter("resultado.txt"));
 
 			for (int i = 0; i < labirintoResultado.length; i++) {
 				for (int j = 0; j < labirintoResultado.length; j++) {
