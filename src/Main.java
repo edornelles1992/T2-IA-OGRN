@@ -18,7 +18,7 @@ public class Main {
     }
 
     public static void executarGenetico(int option) {
-        Genetico genetico = new Genetico(50000, 108, 1 ,10);
+        Genetico genetico = new Genetico(1, 108, 1 ,10);
 
         int[][] labirinto = genetico.montarLabirinto();
         double[][] populacao = new double[genetico.numMovimentos][genetico.numMovimentos];
@@ -27,9 +27,9 @@ public class Main {
         double[] aptidoesIntermediarias = new double[populacao.length];
         genetico.geraPopulacaoInicial(populacao);
 //
-//        int geracao;
-//        for (geracao = 0; geracao < genetico.numGeracoes; geracao++) {
-            genetico.atribuiAptidao(populacao, labirinto, aptidoes, option);
+        int geracao;
+        for (geracao = 0; geracao < genetico.numGeracoes; geracao++) {
+            genetico.atribuiAptidao(populacao, labirinto, aptidoes, option, geracao);
 //            genetico.atribuiPrimeiraLinhaPopulacaoIntermediaria(populacao, populacaoIntermediaria, aptidoes,
 //                    aptidoesIntermediarias, option);
 //
@@ -38,7 +38,7 @@ public class Main {
 //    		
 //            populacao = populacaoIntermediaria;
 //            aptidoes = aptidoesIntermediarias;
-//        }
+        }
 //        System.out.println(geracao + " Gerações");
 //        System.out.println("Solucao final nao encontrada para " + genetico.numGeracoes + " geracoes e " + genetico.numMovimentos
 //                + " movimentos por cromossomo");
