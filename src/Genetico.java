@@ -279,7 +279,7 @@ public class Genetico {
 		//ciclos -> quanto menos melhor -> 		
 		//achouSaida -> -1 n achou / 1 achou
 		
-		return (nroMoedas * 2000) + (qtdCelulasCaminhadas * 20) + (parede * -99999) + (achouSaida * 100) + ((maxGeracoes - ciclos) * 0.001);
+		return (nroMoedas * 40) + (qtdCelulasCaminhadas * 20) + (parede * -99999) + (achouSaida * 100) + ((maxGeracoes - ciclos) * 0.001);
 	}
 
 	public boolean movimentoJaRealizado(int[] posicaoAtual, ArrayList<int[]> movimentacao) {
