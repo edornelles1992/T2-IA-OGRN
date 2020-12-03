@@ -246,7 +246,7 @@ public class Genetico {
 				int melhorNeuronio = rede.executaPropagacao(rede, labirinto, percepcao); //executa RN pra ver o movimento escolhido
 				Movimento mvtoEscolhido = Movimento.getMovimentoByNeuronio(melhorNeuronio); //mvto escolhido				
 				posicaoAux = realizaMovimento(posicaoAtual, mvtoEscolhido, labirinto); //realiza movimento
-				//System.out.println("movimento escolhido: " + mvtoEscolhido.descricao.toString());
+				System.out.println("movimento escolhido: " + mvtoEscolhido.descricao.toString());
 				if (!posicaoAux.equals(posicaoAtual) && !movimentoJaRealizado(posicaoAux, movimentacao)) { 
 					//consegue andar
 					qtdCelulasCaminhadas++;

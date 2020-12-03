@@ -6,9 +6,9 @@ public class Main {
         System.out.println("Qual algoritmo deseja executar?");
         System.out.println("1 - Genetico rapido");
         System.out.println("2 - Genetico detalhado");
-        boolean stopAtFirst = true; //parar na primeira resolução
-   //     Scanner in = new Scanner(System.in);
-        int option = 1; //provisorio pra facilitar os testes
+        boolean stopAtFirst = true; //true = parar na primeira resolução
+        Scanner in = new Scanner(System.in);
+        int option = in.nextInt();
         if (option == 1) {
             executarGenetico(1, stopAtFirst);
         } else if (option == 2) {
@@ -16,6 +16,7 @@ public class Main {
         } else {
             System.out.println("Opcao invalida");
         }
+        in.close();
     }
 
     public static void executarGenetico(int option, boolean stopAtFirst) {

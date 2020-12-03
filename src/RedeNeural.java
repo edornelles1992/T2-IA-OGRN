@@ -62,26 +62,10 @@ public class RedeNeural {
 	}
 
 	public int executaPropagacao(RedeNeural teste, int[][] labirinto, double[] percepcao) {
-
-		// System.out.println("Teste da percepção do agente - O que ele vê e a
-		// distância");
-		// Exibe o que o agente está vendo
-		for (int i = 0; i < percepcao.length; i++) {
-//            System.out.print(percepcao[i]+ " ");
-		}
-		// System.out.println();
-
-		// Exibe e testa a rede neural
-		// System.out.println("Rede Neural - Pesos: ");
-		// System.out.println(teste.rn);
-
-		// Exibe um exemplo de propagação : saida dos neurônios da camada de saída
 		double[] saida = teste.rn.propagacao(percepcao);
-		// System.out.println("Rede Neural - Camada de Saida: Valor de Y");
 		double melhorSaida = saida[0];
 		int melhorNeuronio = 0;
 		for (int i = 0; i < saida.length; i++) {
-			// System.out.println("Neuronio " + i + " : " + saida[i]);
 			if (saida[i] > melhorSaida) {
 				melhorSaida = saida[i];
 				melhorNeuronio = i;
